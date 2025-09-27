@@ -1,5 +1,4 @@
-﻿using DKrey_TODO_list.Task_ADD_Window;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DKrey_TODO_list
+namespace DKrey_TODO_list.Task_ADD_Window
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ADD_Task_Window.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ADD_Task_Window : Window
     {
-        public MainWindow()
+        public ADD_Task_Window()
         {
             InitializeComponent();
         }
-        private void OpenADD_Task_Window_Click(object sender, RoutedEventArgs e)
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ADD_Task_Window addTaskWindow = new ADD_Task_Window();
-            addTaskWindow.Show();
+
         }
-        
     }
 }

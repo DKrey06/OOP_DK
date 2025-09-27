@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DKrey_TODO_list"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="To-do list" Height="910" Width="940">
+    <Grid x:Name="ADD_TASK" Background="#f7e6d4" Cursor="">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="235"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#FFE7C58A"/>
+        <Button Content="+ Добавить задачу" HorizontalAlignment="Center" Margin="0,788,0,0" VerticalAlignment="Top" Height="44" Width="604" Background="#FF4B3535" FontSize="20" RenderTransformOrigin="0.497,6.079" Grid.Column="1" Click="OpenADD_Task_Window_Click" Foreground="White"/>
+        <Ellipse HorizontalAlignment="Center" Height="145" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" Fill="#FF5758A6"/>
+        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,105,78,509"/>
+        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,430,78,201"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TO DO" VerticalAlignment="Top" Foreground="White" FontSize="48" FontFamily="Arial Black"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="LIST" VerticalAlignment="Top" Foreground="White" FontFamily="Arial Black" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,828,0,0" TextWrapping="Wrap" Text="🚀 Developed by DKrey" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="20" Width="225" Foreground="#FF7A5C3C"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,222,0,0" TextWrapping="Wrap" Text="Всего задач:" VerticalAlignment="Top" Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
+        <Rectangle HorizontalAlignment="Center" Height="15" Margin="0,178,0,0" VerticalAlignment="Top" Width="215" Fill="#FF4B3535" RenderTransformOrigin="0.5,0.5"/>
+        <Button Content="Важные:" HorizontalAlignment="Left" Margin="10,272,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" FontSize="20" BorderBrush="{x:Null}" Cursor="AppStarting"/>
         
+
+
     </Grid>
 </Window>

@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\TaskChecklist.cs" />
     <Compile Include="Task_ADD_Window\ADD_Task_Window.xaml.cs">
       <DependentUpon>ADD_Task_Window.xaml</DependentUpon>
     </Compile>
@@ -79,6 +80,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -120,7 +122,6 @@
     <Folder Include="Assets\Images\" />
     <Folder Include="DataService\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

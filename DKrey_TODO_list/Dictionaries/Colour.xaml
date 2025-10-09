@@ -14,5 +14,12 @@
     <SolidColorBrush x:Key="Importance-Med" Color="#FF2AD985" />
     <SolidColorBrush x:Key="Importance-high" Color="#FFCA2C2C" />
     <SolidColorBrush x:Key="Importance-Crit" Color="#FFF4B30C" />
-    
+
+    <!--Task Progress-->
+    <SolidColorBrush x:Key="Progress-InProgress" Color="#FF518657" />
+    <SolidColorBrush x:Key="Progress-Complited" Color="#FF4187AC" />
+    <SolidColorBrush x:Key="Progress-NotStarted" Color="#FFB1B1B1" />
+    <SolidColorBrush x:Key="Progress-Late" Color="#FFB46161" />
+    <SolidColorBrush x:Key="Progress-Archived" Color="#FFC8A36C" />
+    <SolidColorBrush x:Key="Progress-Deleted" Color="#FF606060" />
 </ResourceDictionary>

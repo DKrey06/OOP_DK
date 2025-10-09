@@ -21,23 +21,42 @@
         <Rectangle Fill="{StaticResource AcceptLight}"/>
         <Rectangle Fill="{StaticResource TaskListBackground}" Grid.Column="1"/>
         <!--TaskList-->
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Cursor="">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="38"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
             <Label Style="{StaticResource Heading1}" Content="Tasks" VerticalAlignment="Center" Padding="20 0 0 0" IsHitTestVisible="False"/>
-
+            
+            <!--Add Task But-->
             <Button Style="{StaticResource RoundAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="40" Margin="0 0 20 0">
                 <!--Icon-->
                 <Viewbox Width="30" Height="30">
                     <Path Data="{StaticResource NewTaskIcon}" Fill="{StaticResource OnAccent}"/>
                 </Viewbox>
-                
-
             </Button>
+            
+            <!--Search Task Bar-->
+            <TextBox x:Name="TaskSearchBox" Style="{StaticResource TaskListSearchBox}" Grid.Row="1" Margin="20 0" Cursor="IBeam" />
+
+            <Label IsHitTestVisible="False"
+                   Content="Search Tasks..."
+                   Grid.Row="1"
+                   VerticalAlignment="Center"
+                   Margin="40 0 0 0"
+                   Foreground="{StaticResource Borders}"
+                   Visibility="{Binding Text.IsEmpty, ElementName=TaskSearchBox, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Button Style="{StaticResource SearchButton}" Grid.Row="1"
+                HorizontalAlignment="Right" Margin="0 0 30 0" VerticalAlignment="Center" Padding="10" Background="White"
+                    BorderBrush="Transparent" Height="30" Width="30" Cursor="Hand">
+                <Viewbox Width="20" Height="20">
+                    <Path Data="{StaticResource SearchIcon}" Fill="{StaticResource Borders}"/>
+                </Viewbox>
+            </Button>
+
 
         </Grid>
         <Rectangle Fill="{StaticResource TaskChangeBG}" Grid.Column="2"/>
@@ -45,7 +64,7 @@
         
         <Button Content="+ Добавить задачу" HorizontalAlignment="Center" Margin="0,788,0,0" VerticalAlignment="Top" Height="44" Width="604" Background="#FF4B3535" FontSize="20" RenderTransformOrigin="0.497,6.079" Grid.Column="1" Click="OpenADD_Task_Window_Click" Foreground="White"/>
         <Ellipse HorizontalAlignment="Center" Height="145" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" Fill="#FF5758A6"/>
-        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,105,78,509"/>
+        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,222,78,392"/>
         <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,430,78,201"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TO DO" VerticalAlignment="Top" Foreground="White" FontSize="48" FontFamily="Arial Black"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="LIST" VerticalAlignment="Top" Foreground="White" FontFamily="Arial Black" FontSize="20"/>

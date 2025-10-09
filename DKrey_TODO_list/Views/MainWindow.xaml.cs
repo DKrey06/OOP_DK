@@ -29,7 +29,7 @@ namespace DKrey_TODO_list
         {
             ADD_Task_Window addTaskWindow = new ADD_Task_Window();
             addTaskWindow.Show();
+                }
+
+            }
         }
-        
-    }
-}

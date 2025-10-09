@@ -13,20 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace DKrey_TODO_list.Task_ADD_Window
-{
+    {
     /// <summary>
     /// Логика взаимодействия для ADD_Task_Window.xaml
     /// </summary>
-    public partial class ADD_Task_Window : Window
-    {
-        public ADD_Task_Window()
+        public partial class ADD_Task_Window : Window
         {
-            InitializeComponent();
-        }
+            public ADD_Task_Window()
+            {
+                InitializeComponent();
+            }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
+            private void CheckBox_Checked(object sender, RoutedEventArgs e)
+            {
 
+            }
         }
     }
-}

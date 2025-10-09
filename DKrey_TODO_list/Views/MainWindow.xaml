@@ -5,13 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DKrey_TODO_list"
         mc:Ignorable="d"
-        Title="To-do list" Height="910" Width="940">
+        Title="To-do list" Height="832" Width="1280"
+    WindowStartupLocation="CenterScreen">
     <Grid x:Name="ADD_TASK" Background="#f7e6d4" Cursor="">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="235"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="535"/>
+            <ColumnDefinition Width="1*"/>
+            
         </Grid.ColumnDefinitions>
+        
         <Rectangle Fill="#FFE7C58A"/>
         <Button Content="+ Добавить задачу" HorizontalAlignment="Center" Margin="0,788,0,0" VerticalAlignment="Top" Height="44" Width="604" Background="#FF4B3535" FontSize="20" RenderTransformOrigin="0.497,6.079" Grid.Column="1" Click="OpenADD_Task_Window_Click" Foreground="White"/>
         <Ellipse HorizontalAlignment="Center" Height="145" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" Fill="#FF5758A6"/>

@@ -1,4 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--BG Colours-->
+    <SolidColorBrush x:Key="AcceptDark" Color="#FF7A5C3C" />
+    <SolidColorBrush x:Key="TaskListBackground" Color="#F7E6D4" />
+    <SolidColorBrush x:Key="WindowBackground" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="TaskStatusBackground" Color="#F7E6D9" />
+    
+    <!--Text-->
+    <SolidColorBrush x:Key="DefaultText" Color="#FF474747" />
+    
+    <!--Importance Colours-->
+    <SolidColorBrush x:Key="Importance-Low" Color="#FF0CAFF4" />
+    <SolidColorBrush x:Key="Importance-Med" Color="#FF2AD985" />
+    <SolidColorBrush x:Key="Importance-high" Color="#FFCA2C2C" />
+    <SolidColorBrush x:Key="Importance-Crit" Color="#FFF4B30C" />
     
 </ResourceDictionary>

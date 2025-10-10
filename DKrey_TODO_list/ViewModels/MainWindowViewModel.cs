@@ -217,7 +217,7 @@ namespace DKrey_TODO_list.ViewModels
             if (SelectedTask != null)
             {
                 SelectedTask.IsComplete = true;
-                SelectedTask.TaskState = TaskState.Complite;
+                SelectedTask.TaskState = TaskState.Завершено;
                 _dataService.SaveTasks(AllTasks.ToList());
                 UpdateTaskCollections();
                 FilterTasks();

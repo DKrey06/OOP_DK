@@ -22,8 +22,8 @@ namespace DKrey_TODO_list.Task_ADD_Window
             DataContext = this;
             WindowTitle = "Добавление задачи";
             DueDate = DateTime.Now.AddDays(1);
-            SelectedCategory = TaskCategory.Personal;
-            SelectedImportance = TaskImportance.Middle;
+            SelectedCategory = TaskCategory.Личное;
+            SelectedImportance = TaskImportance.Средняя;
         }
 
         public ADD_Task_Window(Task taskToEdit) : this()
@@ -106,7 +106,7 @@ namespace DKrey_TODO_list.Task_ADD_Window
                 DueDate = DueDate,
                 StartDate = DateTime.Now,
                 IsComplete = false,
-                TaskState = TaskState.NotStarted,
+                TaskState = TaskState.Выполняется,
                 TaskCategory = SelectedCategory,
                 TaskImportance = SelectedImportance
             };

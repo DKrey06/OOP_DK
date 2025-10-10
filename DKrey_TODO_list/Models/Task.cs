@@ -24,27 +24,23 @@ namespace DKrey_TODO_list.Models
 
     public enum TaskState
     {
-        InProgress,
-        Complite,
-        NotStarted,
-        Late,
-        Archived,
-        Deleted
+        Выполняется,
+        Завершено
     }
 
     public enum TaskCategory
     {
-        Work,
-        Personal,
-        Home,
-        Finance
+        Работа,
+        Личное,
+        Дом,
+        Другое
     }
 
     public enum TaskImportance
     {
-        Low,
-        Middle,
-        High
+        Низкая,
+        Средняя, 
+        Высокая
     }
 
 }

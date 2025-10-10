@@ -8,7 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Dictionaries/Colour.xaml"/>
                 <ResourceDictionary Source="/Dictionaries/Icons.xaml" />
-                <ResourceDictionary Source="/Dictionaries/Styles.xaml" /> 
+                <ResourceDictionary Source="/Dictionaries/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>

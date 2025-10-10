@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DKrey_TODO_list.Task_ADD_Window"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="500"
+        Title="{Binding WindowTitle}" Height="400" Width="500"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <Style x:Key="FormLabel" TargetType="TextBlock">
@@ -18,8 +18,6 @@
 
     <Grid Background="{StaticResource TaskListBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -46,7 +44,7 @@
         <!-- Описание -->
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Описание:" Style="{StaticResource FormLabel}" Margin="10,5"/>
         <TextBox Grid.Row="2" Grid.Column="1" x:Name="DescriptionTextBox" Text="{Binding TaskDescription}"
-                 Style="{StaticResource NewTaskDesc}" Margin="10,5" Height="60" AcceptsReturn="True"/>
+                 Style="{StaticResource NewTaskDesc}" Margin="10,5" Height="80" AcceptsReturn="True"/>
 
         <!-- Дата выполнения -->
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата выполнения:" Style="{StaticResource FormLabel}" Margin="10,5"/>
@@ -65,13 +63,8 @@
                   ItemsSource="{Binding ImportanceLevels}" SelectedValue="{Binding SelectedImportance}"
                   Margin="10,5" Height="30" FontSize="14"/>
 
-        <!-- Важная задача -->
-        <CheckBox Grid.Row="6" Grid.Column="1" x:Name="IsImportantCheckBox" 
-                  Content="Пометить как важную" IsChecked="{Binding IsImportant}"
-                  Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
-
         <!-- Кнопки -->
-        <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button Content="Отмена" Click="CancelButton_Click" Width="80" Height="30" Margin="0,0,10,0"/>
             <Button Content="Сохранить" Click="SaveButton_Click" Width="80" Height="30" 
                     Style="{StaticResource AddTaskButton}" IsEnabled="{Binding CanSave}"/>

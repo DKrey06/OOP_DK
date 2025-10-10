@@ -15,7 +15,6 @@ namespace DKrey_TODO_list.Task_ADD_Window
         private DateTime _dueDate;
         private TaskCategory _selectedCategory;
         private TaskImportance _selectedImportance;
-        private bool _isImportant;
 
         public ADD_Task_Window()
         {
@@ -35,7 +34,6 @@ namespace DKrey_TODO_list.Task_ADD_Window
             DueDate = taskToEdit.DueDate;
             SelectedCategory = taskToEdit.TaskCategory;
             SelectedImportance = taskToEdit.TaskImportance;
-            IsImportant = taskToEdit.TaskImportance == TaskImportance.High;
         }
 
         public string WindowTitle { get; private set; }
@@ -92,18 +90,6 @@ namespace DKrey_TODO_list.Task_ADD_Window
             }
         }
 
-        public bool IsImportant
-        {
-            get => _isImportant;
-            set
-            {
-                _isImportant = value;
-                if (_isImportant)
-                    SelectedImportance = TaskImportance.High;
-                OnPropertyChanged(nameof(IsImportant));
-            }
-        }
-
         public bool CanSave => !string.IsNullOrWhiteSpace(TaskTitle);
 
         public List<TaskCategory> Categories => Enum.GetValues(typeof(TaskCategory)).Cast<TaskCategory>().ToList();
@@ -122,7 +108,7 @@ namespace DKrey_TODO_list.Task_ADD_Window
                 IsComplete = false,
                 TaskState = TaskState.NotStarted,
                 TaskCategory = SelectedCategory,
-                TaskImportance = IsImportant ? TaskImportance.High : SelectedImportance
+                TaskImportance = SelectedImportance
             };
 
             DialogResult = true;

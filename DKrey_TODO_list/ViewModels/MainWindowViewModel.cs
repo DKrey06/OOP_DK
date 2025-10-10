@@ -16,6 +16,8 @@ namespace DKrey_TODO_list.ViewModels
         private Task _selectedTask;
         private ObservableCollection<Task> _tasks;
         private ObservableCollection<Task> _allTasks;
+        private ObservableCollection<Task> _activeTasks;
+        private ObservableCollection<Task> _completedTasks;
         private string _filterText;
         private TaskState _filterState;
         private TaskCategory _filterCategory;
@@ -26,7 +28,7 @@ namespace DKrey_TODO_list.ViewModels
         {
             _dataService = new JsonDataService();
             _allTasks = new ObservableCollection<Task>(_dataService.LoadTasks());
-            Tasks = new ObservableCollection<Task>(_allTasks);
+            UpdateTaskCollections();
 
             AddTaskCommand = new RelayCommand(AddTask);
             EditTaskCommand = new RelayCommand(EditTask, CanEditOrDeleteTask);
@@ -52,6 +54,27 @@ namespace DKrey_TODO_list.ViewModels
             {
                 _allTasks = value;
                 OnPropertyChanged(nameof(AllTasks));
+                UpdateTaskCollections();
+            }
+        }
+
+        public ObservableCollection<Task> ActiveTasks
+        {
+            get => _activeTasks;
+            set
+            {
+                _activeTasks = value;
+                OnPropertyChanged(nameof(ActiveTasks));
+            }
+        }
+
+        public ObservableCollection<Task> CompletedTasks
+        {
+            get => _completedTasks;
+            set
+            {
+                _completedTasks = value;
+                OnPropertyChanged(nameof(CompletedTasks));
             }
         }
 
@@ -110,12 +133,21 @@ namespace DKrey_TODO_list.ViewModels
             }
         }
 
-        
+
         public RelayCommand AddTaskCommand { get; }
         public RelayCommand EditTaskCommand { get; }
         public RelayCommand DeleteTaskCommand { get; }
         public RelayCommand CompleteTaskCommand { get; }
         public RelayCommand FilterTasksCommand { get; }
+
+        private void UpdateTaskCollections()
+        {
+            var active = AllTasks.Where(t => !t.IsComplete).ToList();
+            var completed = AllTasks.Where(t => t.IsComplete).ToList();
+
+            ActiveTasks = new ObservableCollection<Task>(active);
+            CompletedTasks = new ObservableCollection<Task>(completed);
+        }
 
         public void AddTask()
         {
@@ -128,6 +160,7 @@ namespace DKrey_TODO_list.ViewModels
                     newTask.Id = _dataService.GetNextId(AllTasks.ToList());
                     AllTasks.Add(newTask);
                     _dataService.SaveTasks(AllTasks.ToList());
+                    UpdateTaskCollections();
                     FilterTasks();
                 }
             }
@@ -143,17 +176,17 @@ namespace DKrey_TODO_list.ViewModels
                     var updatedTask = editWindow.NewTask;
                     if (updatedTask != null)
                     {
-                        
                         updatedTask.Id = SelectedTask.Id;
+                        updatedTask.IsComplete = SelectedTask.IsComplete; 
 
                         var index = AllTasks.IndexOf(SelectedTask);
                         if (index >= 0)
                         {
                             AllTasks[index] = updatedTask;
                             _dataService.SaveTasks(AllTasks.ToList());
+                            UpdateTaskCollections();
                             FilterTasks();
 
-                            
                             SelectedTask = updatedTask;
                         }
                     }
@@ -172,6 +205,7 @@ namespace DKrey_TODO_list.ViewModels
                 {
                     AllTasks.Remove(SelectedTask);
                     _dataService.SaveTasks(AllTasks.ToList());
+                    UpdateTaskCollections();
                     SelectedTask = null;
                     FilterTasks();
                 }
@@ -185,8 +219,11 @@ namespace DKrey_TODO_list.ViewModels
                 SelectedTask.IsComplete = true;
                 SelectedTask.TaskState = TaskState.Complite;
                 _dataService.SaveTasks(AllTasks.ToList());
-                OnPropertyChanged(nameof(SelectedTask));
+                UpdateTaskCollections();
                 FilterTasks();
+
+                
+                OnPropertyChanged(nameof(SelectedTask));
             }
         }
 
@@ -195,17 +232,20 @@ namespace DKrey_TODO_list.ViewModels
             var filtered = AllTasks.Where(task =>
                 (string.IsNullOrEmpty(FilterText) ||
                  task.Title.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                 (task.Description != null && task.Description.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0)) && // Добавлена проверка на null
+                 (task.Description != null && task.Description.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0)) &&
                 (FilterState == 0 || task.TaskState == FilterState) &&
                 (FilterCategory == 0 || task.TaskCategory == FilterCategory) &&
                 (FilterImportance == 0 || task.TaskImportance == FilterImportance)
             ).ToList();
 
-            Tasks.Clear();
-            foreach (var task in filtered)
-            {
-                Tasks.Add(task);
-            }
+            Tasks = new ObservableCollection<Task>(filtered);
+
+            
+            var activeFiltered = filtered.Where(t => !t.IsComplete).ToList();
+            var completedFiltered = filtered.Where(t => t.IsComplete).ToList();
+
+            ActiveTasks = new ObservableCollection<Task>(activeFiltered);
+            CompletedTasks = new ObservableCollection<Task>(completedFiltered);
         }
 
         private bool CanEditOrDeleteTask()

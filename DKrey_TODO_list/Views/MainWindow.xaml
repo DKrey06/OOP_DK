@@ -14,12 +14,20 @@
             <ColumnDefinition Width="535"/>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="50"/>
-            
-            
+
+
         </Grid.ColumnDefinitions>
-        
+
         <Rectangle Fill="{StaticResource AcceptLight}"/>
         <Rectangle Fill="{StaticResource TaskListBackground}" Grid.Column="1"/>
+        <Rectangle Fill="{StaticResource TaskChangeBG}" Grid.Column="2"/>
+        <Rectangle Fill="{StaticResource AcceptLight}" Grid.Column="3"/>
+        <!--Logo-->
+        <Ellipse HorizontalAlignment="Center" Height="145" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" Fill="#FF5758A6"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TO DO" VerticalAlignment="Top" Foreground="White" FontSize="48" FontFamily="Arial Black"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="LIST" VerticalAlignment="Top" Foreground="White" FontFamily="Arial Black" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,198,0,0" TextWrapping="Wrap" Text="🚀 Developed by DKrey" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="20" Width="225" Foreground="#FF7A5C3C"/>
+        <Rectangle HorizontalAlignment="Center" Height="15" Margin="0,178,0,0" VerticalAlignment="Top" Width="215" Fill="#FF4B3535" RenderTransformOrigin="0.5,0.5"/>
         <!--TaskList-->
         <Grid Grid.Column="1" Cursor="">
             <Grid.RowDefinitions>
@@ -29,7 +37,7 @@
             </Grid.RowDefinitions>
 
             <Label Style="{StaticResource Heading1}" Content="Tasks" VerticalAlignment="Center" Padding="20 0 0 0" IsHitTestVisible="False"/>
-            
+
             <!--Add Task But-->
             <Button Style="{StaticResource RoundAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="40" Margin="0 0 20 0">
                 <!--Icon-->
@@ -37,7 +45,7 @@
                     <Path Data="{StaticResource NewTaskIcon}" Fill="{StaticResource OnAccent}"/>
                 </Viewbox>
             </Button>
-            
+
             <!--Search Task Bar-->
             <TextBox x:Name="TaskSearchBox" Style="{StaticResource TaskListSearchBox}" Grid.Row="1" Margin="20 0" Cursor="IBeam" />
 
@@ -56,24 +64,122 @@
                     <Path Data="{StaticResource SearchIcon}" Fill="{StaticResource Borders}"/>
                 </Viewbox>
             </Button>
+            
+            <!--List View For Task Items-->
+            <ListView Grid.Row="2"
+                      Background="Transparent"
+                      Margin="0 20"
+                      BorderBrush="Transparent">
+            </ListView>
+        </Grid>
+        
+        <!--Task Viewer-->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="230"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
 
+            <!--Task Details-->
+            <Grid Margin="20 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Title, FallbackValue='Тема задачи'}"
+               Style="{StaticResource Title}"
+               VerticalAlignment="Center"
+               Grid.Row="0"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Padding="15 5"
+                CornerRadius="5"
+                Background="LightGray"
+                Margin="0 0 10 0">
+                        <TextBlock Text="{Binding TaskCategory, FallbackValue='Категория'}"
+                       Foreground="Black"
+                       FontWeight="Normal"
+                       FontSize="14"/>
+                    </Border>
+                    <Border Padding="15 5"
+                CornerRadius="5"
+                Background="Gray">
+                        <TextBlock Text="{Binding TaskState, FallbackValue='Статус'}"
+                       Foreground="White"
+                       FontWeight="SemiBold"
+                       FontSize="14"/>
+                    </Border>
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="2"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Text="{Binding Description, FallbackValue='Описание задачи'}"
+                   FontSize="16"
+                   Foreground="{StaticResource AcceptDarkClick}"
+                   Margin="0 10"
+                   TextWrapping="Wrap"/>
+                </ScrollViewer>
+
+                <TextBlock Text="{Binding DueDate, StringFormat='Срок: {0:dd/MM/yyyy HH:mm}', FallbackValue='Срок: 01/01/2025'}"
+               Background="{StaticResource AcceptLight}"
+               Padding="20 3"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Grid.Row="3"
+               Foreground="White"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0 20 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource Title}"
+               Text="Чек-лист задачи"
+               VerticalAlignment="Center"
+               Margin="20 0 0 0"/>
+
+                <ListView Grid.Row="1"
+          ItemsSource="{Binding ChecklistItems}"
+          Background="Transparent"
+          BorderThickness="0"
+          Margin="20 10">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding}" IsChecked="False" Margin="5"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="Завершить" 
+            Height="40" 
+            Width="159" 
+            Style="{StaticResource CompleteButton}" 
+            Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            Margin="0,0,10,0"/>
+
+                <Button Content="Изменить" 
+            Height="40" 
+            Width="159" 
+            Style="{StaticResource AddTaskButton}" 
+            Command="{Binding DataContext.EditTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+            Margin="0,0,10,0"/>
+
+                <Button Content="Удалить" 
+            Height="40" 
+            Width="159" 
+            Style="{StaticResource Delete}" 
+            Command="{Binding DataContext.DeleteTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </StackPanel>
 
         </Grid>
-        <Rectangle Fill="{StaticResource TaskChangeBG}" Grid.Column="2"/>
-        <Rectangle Fill="{StaticResource AcceptLight}" Grid.Column="3"/>
-        
-        <Button Content="+ Добавить задачу" HorizontalAlignment="Center" Margin="0,788,0,0" VerticalAlignment="Top" Height="44" Width="604" Background="#FF4B3535" FontSize="20" RenderTransformOrigin="0.497,6.079" Grid.Column="1" Click="OpenADD_Task_Window_Click" Foreground="White"/>
-        <Ellipse HorizontalAlignment="Center" Height="145" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" Fill="#FF5758A6"/>
-        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,222,78,392"/>
-        <ListBox Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="79,430,78,201"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,52,0,0" TextWrapping="Wrap" Text="TO DO" VerticalAlignment="Top" Foreground="White" FontSize="48" FontFamily="Arial Black"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="LIST" VerticalAlignment="Top" Foreground="White" FontFamily="Arial Black" FontSize="20"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,828,0,0" TextWrapping="Wrap" Text="🚀 Developed by DKrey" VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="20" Width="225" Foreground="#FF7A5C3C"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,222,0,0" TextWrapping="Wrap" Text="Всего задач:" VerticalAlignment="Top" Foreground="Black" FontSize="20" FontFamily="Arial Black"/>
-        <Rectangle HorizontalAlignment="Center" Height="15" Margin="0,178,0,0" VerticalAlignment="Top" Width="215" Fill="#FF4B3535" RenderTransformOrigin="0.5,0.5"/>
-        <Button Content="Важные:" HorizontalAlignment="Left" Margin="10,272,0,0" VerticalAlignment="Top" Background="{x:Null}" FontFamily="Arial Black" FontSize="20" BorderBrush="{x:Null}" Cursor="AppStarting"/>
-        
-
-
     </Grid>
 </Window>

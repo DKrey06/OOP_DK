@@ -10,6 +10,10 @@
     <SolidColorBrush x:Key="WindowBackground" Color="#FFFFFF" />
     <SolidColorBrush x:Key="TaskStatusBackground" Color="#FBF1E7" />
     <SolidColorBrush x:Key="OnAccent" Color="#FFFFFF" />
+    
+    <!--PlaceholderText-->
+    <SolidColorBrush x:Key="PlaceholderText" Color="#FF868686"/>
+
 
     <!--Borders-->
     <SolidColorBrush x:Key="Borders" Color="#FFCCCCCC"/>

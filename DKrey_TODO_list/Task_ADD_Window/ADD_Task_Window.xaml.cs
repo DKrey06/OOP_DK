@@ -1,32 +1,144 @@
-﻿using System;
+﻿using DKrey_TODO_list.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DKrey_TODO_list.Task_ADD_Window
+{
+    public partial class ADD_Task_Window : Window, INotifyPropertyChanged
     {
-    /// <summary>
-    /// Логика взаимодействия для ADD_Task_Window.xaml
-    /// </summary>
-        public partial class ADD_Task_Window : Window
+        private string _taskTitle;
+        private string _taskDescription;
+        private DateTime _dueDate;
+        private TaskCategory _selectedCategory;
+        private TaskImportance _selectedImportance;
+        private bool _isImportant;
+
+        public ADD_Task_Window()
         {
-            public ADD_Task_Window()
-            {
-                InitializeComponent();
-            }
+            InitializeComponent();
+            DataContext = this;
+            WindowTitle = "Добавление задачи";
+            DueDate = DateTime.Now.AddDays(1);
+            SelectedCategory = TaskCategory.Personal;
+            SelectedImportance = TaskImportance.Middle;
+        }
 
-            private void CheckBox_Checked(object sender, RoutedEventArgs e)
-            {
+        public ADD_Task_Window(Task taskToEdit) : this()
+        {
+            WindowTitle = "Редактирование задачи";
+            TaskTitle = taskToEdit.Title;
+            TaskDescription = taskToEdit.Description;
+            DueDate = taskToEdit.DueDate;
+            SelectedCategory = taskToEdit.TaskCategory;
+            SelectedImportance = taskToEdit.TaskImportance;
+            IsImportant = taskToEdit.TaskImportance == TaskImportance.High;
+        }
 
+        public string WindowTitle { get; private set; }
+        public Task NewTask { get; private set; }
+
+        public string TaskTitle
+        {
+            get => _taskTitle;
+            set
+            {
+                _taskTitle = value;
+                OnPropertyChanged(nameof(TaskTitle));
+                OnPropertyChanged(nameof(CanSave));
             }
         }
+
+        public string TaskDescription
+        {
+            get => _taskDescription;
+            set
+            {
+                _taskDescription = value;
+                OnPropertyChanged(nameof(TaskDescription));
+            }
+        }
+
+        public DateTime DueDate
+        {
+            get => _dueDate;
+            set
+            {
+                _dueDate = value;
+                OnPropertyChanged(nameof(DueDate));
+            }
+        }
+
+        public TaskCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                _selectedCategory = value;
+                OnPropertyChanged(nameof(SelectedCategory));
+            }
+        }
+
+        public TaskImportance SelectedImportance
+        {
+            get => _selectedImportance;
+            set
+            {
+                _selectedImportance = value;
+                OnPropertyChanged(nameof(SelectedImportance));
+            }
+        }
+
+        public bool IsImportant
+        {
+            get => _isImportant;
+            set
+            {
+                _isImportant = value;
+                if (_isImportant)
+                    SelectedImportance = TaskImportance.High;
+                OnPropertyChanged(nameof(IsImportant));
+            }
+        }
+
+        public bool CanSave => !string.IsNullOrWhiteSpace(TaskTitle);
+
+        public List<TaskCategory> Categories => Enum.GetValues(typeof(TaskCategory)).Cast<TaskCategory>().ToList();
+        public List<TaskImportance> ImportanceLevels => Enum.GetValues(typeof(TaskImportance)).Cast<TaskImportance>().ToList();
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanSave) return;
+
+            NewTask = new Task
+            {
+                Title = TaskTitle.Trim(),
+                Description = TaskDescription?.Trim() ?? "",
+                DueDate = DueDate,
+                StartDate = DateTime.Now,
+                IsComplete = false,
+                TaskState = TaskState.NotStarted,
+                TaskCategory = SelectedCategory,
+                TaskImportance = IsImportant ? TaskImportance.High : SelectedImportance
+            };
+
+            DialogResult = true;
+            Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
+}

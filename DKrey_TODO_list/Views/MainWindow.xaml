@@ -39,7 +39,13 @@
             <Label Style="{StaticResource Heading1}" Content="Tasks" VerticalAlignment="Center" Padding="20 0 0 0" IsHitTestVisible="False"/>
 
             <!--Add Task But-->
-            <Button Style="{StaticResource RoundAccentButton}" HorizontalAlignment="Right" VerticalAlignment="Center" Height="40" Width="40" Margin="0 0 20 0">
+            <Button Style="{StaticResource RoundAccentButton}" 
+        HorizontalAlignment="Right" 
+        VerticalAlignment="Center" 
+        Height="40" 
+        Width="40" 
+        Margin="0 0 20 0"
+        Command="{Binding AddTaskCommand}">
                 <!--Icon-->
                 <Viewbox Width="30" Height="30">
                     <Path Data="{StaticResource NewTaskIcon}" Fill="{StaticResource OnAccent}"/>
@@ -47,7 +53,13 @@
             </Button>
 
             <!--Search Task Bar-->
-            <TextBox x:Name="TaskSearchBox" Style="{StaticResource TaskListSearchBox}" Grid.Row="1" Margin="20 0" Cursor="IBeam" />
+            <!--Search Task Bar-->
+            <TextBox x:Name="TaskSearchBox" 
+         Style="{StaticResource TaskListSearchBox}" 
+         Grid.Row="1" 
+         Margin="20 0" 
+         Cursor="IBeam"
+         Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label IsHitTestVisible="False"
                    Content="Search Tasks..."
@@ -64,12 +76,50 @@
                     <Path Data="{StaticResource SearchIcon}" Fill="{StaticResource Borders}"/>
                 </Viewbox>
             </Button>
-            
+
             <!--List View For Task Items-->
             <ListView Grid.Row="2"
-                      Background="Transparent"
-                      Margin="0 20"
-                      BorderBrush="Transparent">
+          Background="Transparent"
+          Margin="0 20"
+          BorderBrush="Transparent"
+          ItemsSource="{Binding Tasks}"
+          SelectedItem="{Binding SelectedTask}"
+          MouseDoubleClick="TaskItem_DoubleClick">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource TaskCardStyle}" Padding="10" Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" 
+                               FontWeight="Bold" FontSize="16" TextTrimming="CharacterEllipsis"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Description}" 
+                               Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"/>
+
+                                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="{Binding DueDate, StringFormat='Срок: {0:dd.MM.yyyy}'}" 
+                                   FontSize="12" Foreground="DarkGray"/>
+                                    <TextBlock Text="{Binding TaskCategory}" Margin="10,0,0,0" 
+                                   FontSize="12" Foreground="DarkBlue"/>
+                                </StackPanel>
+
+                                <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
+                              IsChecked="{Binding IsComplete}"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
         

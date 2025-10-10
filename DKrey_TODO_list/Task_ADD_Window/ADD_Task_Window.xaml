@@ -5,16 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DKrey_TODO_list.Task_ADD_Window"
         mc:Ignorable="d"
-            Title="Добавление задачи" Height="400" Width="500">
-    <Grid x:Name="ADD_TASK" Background="#a4d09f">
-        <Button Content="Сохранить" HorizontalAlignment="Left" Margin="350,324,0,0" VerticalAlignment="Top" Height="36" Width="129" Background="#FF46B49E" FontSize="20"/>
-        <TextBlock HorizontalAlignment="Left" Margin="41,60,0,0" TextWrapping="Wrap" Text="Задача:" VerticalAlignment="Top" Height="30" Width="89" FontSize="24"/>
-        <TextBox HorizontalAlignment="Left" Margin="146,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="319" Height="73" FontSize="24"/>
-        <TextBlock Margin="55,139,0,0" TextWrapping="Wrap" Text="Дата" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" RenderTransformOrigin="2.3,0.772"/>
-        <TextBlock HorizontalAlignment="Left" Margin="15,171,0,0" TextWrapping="Wrap" Text="выполнения:" VerticalAlignment="Top" FontSize="24"/>
-        <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Height="38" Width="286" RenderTransformOrigin="1.067,0.427" Margin="179,155,0,0" FontSize="24"/>
-        <TextBlock HorizontalAlignment="Left" Margin="15,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="24" Height="32"><Run Text="Пометить как важную"/><Run Language="ru-ru" Text=":"/><LineBreak/><Run Language="ru-ru"/></TextBlock>
-        <CheckBox Content="" HorizontalAlignment="Left" Margin="274,257,0,0" VerticalAlignment="Top" Height="15" Width="16" RenderTransformOrigin="0.527,0.51" Checked="CheckBox_Checked"/>
+        Title="{Binding WindowTitle}" Height="450" Width="500"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style x:Key="FormLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource DefaultText}"/>
+        </Style>
+    </Window.Resources>
 
+    <Grid Background="{StaticResource TaskListBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding WindowTitle}" 
+                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" 
+                   Margin="10" Foreground="{StaticResource AcceptDark}"/>
+
+        <!-- Название задачи -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Название:" Style="{StaticResource FormLabel}" Margin="10,5"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="TitleTextBox" Text="{Binding TaskTitle, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource NewTaskTitle}" Margin="10,5" Height="30"/>
+
+        <!-- Описание -->
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Описание:" Style="{StaticResource FormLabel}" Margin="10,5"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="DescriptionTextBox" Text="{Binding TaskDescription}"
+                 Style="{StaticResource NewTaskDesc}" Margin="10,5" Height="60" AcceptsReturn="True"/>
+
+        <!-- Дата выполнения -->
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата выполнения:" Style="{StaticResource FormLabel}" Margin="10,5"/>
+        <DatePicker Grid.Row="3" Grid.Column="1" x:Name="DueDatePicker" SelectedDate="{Binding DueDate}"
+                    Margin="10,5" Height="30" FontSize="14"/>
+
+        <!-- Категория -->
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Категория:" Style="{StaticResource FormLabel}" Margin="10,5"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" x:Name="CategoryComboBox" 
+                  ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategory}"
+                  Margin="10,5" Height="30" FontSize="14"/>
+
+        <!-- Важность -->
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Важность:" Style="{StaticResource FormLabel}" Margin="10,5"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" x:Name="ImportanceComboBox" 
+                  ItemsSource="{Binding ImportanceLevels}" SelectedValue="{Binding SelectedImportance}"
+                  Margin="10,5" Height="30" FontSize="14"/>
+
+        <!-- Важная задача -->
+        <CheckBox Grid.Row="6" Grid.Column="1" x:Name="IsImportantCheckBox" 
+                  Content="Пометить как важную" IsChecked="{Binding IsImportant}"
+                  Margin="10,5" FontSize="14" VerticalAlignment="Center"/>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Отмена" Click="CancelButton_Click" Width="80" Height="30" Margin="0,0,10,0"/>
+            <Button Content="Сохранить" Click="SaveButton_Click" Width="80" Height="30" 
+                    Style="{StaticResource AddTaskButton}" IsEnabled="{Binding CanSave}"/>
+        </StackPanel>
     </Grid>
 </Window>

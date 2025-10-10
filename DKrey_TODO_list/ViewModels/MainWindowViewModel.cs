@@ -1,4 +1,6 @@
-﻿using DKrey_TODO_list.Models;
+﻿using DKrey_TODO_list.DataService;
+using DKrey_TODO_list.Models;
+using DKrey_TODO_list.Task_ADD_Window;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,17 +15,19 @@ namespace DKrey_TODO_list.ViewModels
     {
         private Task _selectedTask;
         private ObservableCollection<Task> _tasks;
+        private ObservableCollection<Task> _allTasks;
         private string _filterText;
-        private TaskState _filterState = TaskState.NotStarted;
+        private TaskState _filterState;
         private TaskCategory _filterCategory;
         private TaskImportance _filterImportance;
+        private readonly JsonDataService _dataService;
 
         public MainWindowViewModel()
         {
-            Tasks = new ObservableCollection<Task>();
-            LoadTasks();
+            _dataService = new JsonDataService();
+            _allTasks = new ObservableCollection<Task>(_dataService.LoadTasks());
+            Tasks = new ObservableCollection<Task>(_allTasks);
 
-            
             AddTaskCommand = new RelayCommand(AddTask);
             EditTaskCommand = new RelayCommand(EditTask, CanEditOrDeleteTask);
             DeleteTaskCommand = new RelayCommand(DeleteTask, CanEditOrDeleteTask);
@@ -41,6 +45,16 @@ namespace DKrey_TODO_list.ViewModels
             }
         }
 
+        public ObservableCollection<Task> AllTasks
+        {
+            get => _allTasks;
+            set
+            {
+                _allTasks = value;
+                OnPropertyChanged(nameof(AllTasks));
+            }
+        }
+
         public Task SelectedTask
         {
             get => _selectedTask;
@@ -48,6 +62,7 @@ namespace DKrey_TODO_list.ViewModels
             {
                 _selectedTask = value;
                 OnPropertyChanged(nameof(SelectedTask));
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
@@ -95,43 +110,54 @@ namespace DKrey_TODO_list.ViewModels
             }
         }
 
-        // Команды
+        
         public RelayCommand AddTaskCommand { get; }
         public RelayCommand EditTaskCommand { get; }
         public RelayCommand DeleteTaskCommand { get; }
         public RelayCommand CompleteTaskCommand { get; }
         public RelayCommand FilterTasksCommand { get; }
 
-        public void LoadTasks()
-        {
-        
-            Tasks.Clear();
-            Tasks.Add(new Task
-            {
-                Id = 1,
-                Title = "Пример задачи",
-                Description = "Описание примерной задачи",
-                DueDate = DateTime.Now.AddDays(7),
-                StartDate = DateTime.Now,
-                IsComplete = false,
-                TaskState = TaskState.NotStarted,
-                TaskCategory = TaskCategory.Work,
-                TaskImportance = TaskImportance.Middle
-            });
-        }
-
         public void AddTask()
         {
-           
-            MessageBox.Show("Функция добавления задачи будет реализована после создания окна TaskAddWindow");
+            var addWindow = new ADD_Task_Window();
+            if (addWindow.ShowDialog() == true)
+            {
+                var newTask = addWindow.NewTask;
+                if (newTask != null)
+                {
+                    newTask.Id = _dataService.GetNextId(AllTasks.ToList());
+                    AllTasks.Add(newTask);
+                    _dataService.SaveTasks(AllTasks.ToList());
+                    FilterTasks();
+                }
+            }
         }
 
         public void EditTask()
         {
             if (SelectedTask != null)
             {
-               
-                MessageBox.Show($"Редактирование задачи: {SelectedTask.Title}");
+                var editWindow = new ADD_Task_Window(SelectedTask);
+                if (editWindow.ShowDialog() == true)
+                {
+                    var updatedTask = editWindow.NewTask;
+                    if (updatedTask != null)
+                    {
+                        
+                        updatedTask.Id = SelectedTask.Id;
+
+                        var index = AllTasks.IndexOf(SelectedTask);
+                        if (index >= 0)
+                        {
+                            AllTasks[index] = updatedTask;
+                            _dataService.SaveTasks(AllTasks.ToList());
+                            FilterTasks();
+
+                            
+                            SelectedTask = updatedTask;
+                        }
+                    }
+                }
             }
         }
 
@@ -144,8 +170,10 @@ namespace DKrey_TODO_list.ViewModels
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    Tasks.Remove(SelectedTask);
+                    AllTasks.Remove(SelectedTask);
+                    _dataService.SaveTasks(AllTasks.ToList());
                     SelectedTask = null;
+                    FilterTasks();
                 }
             }
         }
@@ -156,47 +184,27 @@ namespace DKrey_TODO_list.ViewModels
             {
                 SelectedTask.IsComplete = true;
                 SelectedTask.TaskState = TaskState.Complite;
+                _dataService.SaveTasks(AllTasks.ToList());
                 OnPropertyChanged(nameof(SelectedTask));
-
-
-                var index = Tasks.IndexOf(SelectedTask);
-                if (index >= 0)
-                {
-                    Tasks[index] = SelectedTask;
-                }
+                FilterTasks();
             }
         }
 
         public void FilterTasks()
         {
+            var filtered = AllTasks.Where(task =>
+                (string.IsNullOrEmpty(FilterText) ||
+                 task.Title.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                 (task.Description != null && task.Description.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0)) && // Добавлена проверка на null
+                (FilterState == 0 || task.TaskState == FilterState) &&
+                (FilterCategory == 0 || task.TaskCategory == FilterCategory) &&
+                (FilterImportance == 0 || task.TaskImportance == FilterImportance)
+            ).ToList();
 
-            LoadTasks();
-        }
-
-        public void MarkTaskAsComplete(Task task)
-        {
-            if (task != null)
+            Tasks.Clear();
+            foreach (var task in filtered)
             {
-                task.IsComplete = true;
-                task.TaskState = TaskState.Complite;
-
-                var index = Tasks.IndexOf(task);
-                if (index >= 0)
-                {
-                    Tasks[index] = task;
-                }
-            }
-        }
-
-        public void DeleteTask(Task task)
-        {
-            if (task != null)
-            {
-                Tasks.Remove(task);
-                if (SelectedTask == task)
-                {
-                    SelectedTask = null;
-                }
+                Tasks.Add(task);
             }
         }
 

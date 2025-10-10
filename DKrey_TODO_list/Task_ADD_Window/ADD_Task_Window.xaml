@@ -39,7 +39,7 @@
         <!-- Название задачи -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Название:" Style="{StaticResource FormLabel}" Margin="10,5"/>
         <TextBox Grid.Row="1" Grid.Column="1" x:Name="TitleTextBox" Text="{Binding TaskTitle, UpdateSourceTrigger=PropertyChanged}"
-                 Style="{StaticResource NewTaskTitle}" Margin="10,5" Height="30"/>
+         Style="{StaticResource NewTaskTitle}" Margin="10,5" Height="30" FontSize="16" VerticalContentAlignment="Center"/>
 
         <!-- Описание -->
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Описание:" Style="{StaticResource FormLabel}" Margin="10,5"/>

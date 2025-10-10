@@ -93,20 +93,20 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Активные задачи" 
-                                   FontWeight="Bold" 
-                                   FontSize="14" 
-                                   Margin="0,0,0,5"
-                                   Foreground="{StaticResource AcceptDark}"/>
+                       FontWeight="Bold" 
+                       FontSize="14" 
+                       Margin="0,0,0,5"
+                       Foreground="{StaticResource AcceptDark}"/>
 
                         <ListView Grid.Row="1"
-                                  Background="Transparent"
-                                  BorderBrush="Transparent"
-                                  ItemsSource="{Binding ActiveTasks}"
-                                  SelectedItem="{Binding SelectedTask}"
-                                  MouseDoubleClick="TaskItem_DoubleClick">
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      ItemsSource="{Binding ActiveTasks}"
+                      SelectedItem="{Binding SelectedTask}"
+                      MouseDoubleClick="TaskItem_DoubleClick">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource TaskCardStyle}" Padding="10" Margin="2">
+                                    <Border Style="{StaticResource TaskCardStyle}" Width="495" Padding="10" Margin="2,5">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -119,24 +119,24 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" 
-                                                       FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                                           FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"/>
 
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Description}" 
-                                                       Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"
-                                                       FontSize="12"/>
+                                           Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"
+                                           FontSize="12"/>
 
-                                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,0">
+                                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,8,0,0">
                                                 <TextBlock Text="{Binding DueDate, StringFormat='Срок: {0:dd.MM.yyyy}'}" 
-                                                           FontSize="11" Foreground="DarkGray"/>
+                                               FontSize="11" Foreground="DarkGray"/>
                                                 <TextBlock Text="{Binding TaskCategory}" Margin="10,0,0,0" 
-                                                           FontSize="11" Foreground="DarkBlue"/>
+                                               FontSize="11" Foreground="DarkBlue"/>
                                             </StackPanel>
 
                                             <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
-                                                      IsChecked="{Binding IsComplete}"
-                                                      VerticalAlignment="Center"
-                                                      HorizontalAlignment="Right"
-                                                      Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                                          IsChecked="{Binding IsComplete}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Right"
+                                          Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -157,20 +157,20 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Выполненные задачи" 
-                                   FontWeight="Bold" 
-                                   FontSize="14" 
-                                   Margin="0,5,0,5"
-                                   Foreground="{StaticResource AcceptDark}"/>
+                       FontWeight="Bold" 
+                       FontSize="14" 
+                       Margin="0,5,0,5"
+                       Foreground="{StaticResource AcceptDark}"/>
 
                         <ListView Grid.Row="1"
-                                  Background="Transparent"
-                                  BorderBrush="Transparent"
-                                  ItemsSource="{Binding CompletedTasks}"
-                                  SelectedItem="{Binding SelectedTask}"
-                                  MouseDoubleClick="TaskItem_DoubleClick">
+                      Background="Transparent"
+                      BorderBrush="Transparent"
+                      ItemsSource="{Binding CompletedTasks}"
+                      SelectedItem="{Binding SelectedTask}"
+                      MouseDoubleClick="TaskItem_DoubleClick">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource TaskCardStyle}" Padding="10" Margin="2" Opacity="0.7">
+                                    <Border Style="{StaticResource TaskCardStyle}" Width="495" Padding="10" Margin="2,5" Opacity="0.7">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -183,25 +183,25 @@
                                             </Grid.ColumnDefinitions>
 
                                             <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Title}" 
-                                                       FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"
-                                                       TextDecorations="Strikethrough"/>
+                                           FontWeight="Bold" FontSize="14" TextTrimming="CharacterEllipsis"
+                                           TextDecorations="Strikethrough"/>
 
                                             <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Description}" 
-                                                       Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"
-                                                       FontSize="12" TextDecorations="Strikethrough"/>
+                                           Foreground="Gray" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"
+                                           FontSize="12" TextDecorations="Strikethrough"/>
 
-                                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,0">
+                                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,8,0,0">
                                                 <TextBlock Text="{Binding DueDate, StringFormat='Срок: {0:dd.MM.yyyy}'}" 
-                                                           FontSize="11" Foreground="DarkGray"/>
+                                               FontSize="11" Foreground="DarkGray"/>
                                                 <TextBlock Text="{Binding TaskCategory}" Margin="10,0,0,0" 
-                                                           FontSize="11" Foreground="DarkBlue"/>
+                                               FontSize="11" Foreground="DarkBlue"/>
                                             </StackPanel>
 
                                             <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
-                                                      IsChecked="{Binding IsComplete}"
-                                                      VerticalAlignment="Center"
-                                                      HorizontalAlignment="Right"
-                                                      IsEnabled="False"/>
+                                          IsChecked="{Binding IsComplete}"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Right"
+                                          IsEnabled="False"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -293,7 +293,7 @@
                            VerticalAlignment="Center"
                            Margin="0,0,10,0"/>
                 <TextBlock Grid.Column="1" 
-                           
+                           Text="{Binding SelectedTask.DueDate, StringFormat='dd.MM.yyyy HH:mm', FallbackValue='Не указана'}"
                            FontSize="14"
                            VerticalAlignment="Center"/>
             </Grid>
@@ -317,28 +317,30 @@
 
             <!--Buttons-->
             <StackPanel Grid.Row="6" 
-                        Orientation="Horizontal" 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Bottom">
+            Orientation="Horizontal" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Bottom"
+            Margin="0,20,0,10">
                 <Button Content="Завершить" 
-                        Height="40" 
-                        Width="159" 
-                        Style="{StaticResource CompleteButton}" 
-                        Command="{Binding CompleteTaskCommand}"
-                        Margin="0,0,10,0"/>
+            Height="35" 
+            Width="120" 
+            Style="{StaticResource CompleteButton}" 
+            Command="{Binding CompleteTaskCommand}"
+            Margin="5"/>
 
                 <Button Content="Изменить" 
-                        Height="40" 
-                        Width="159" 
-                        Style="{StaticResource AddTaskButton}" 
-                        Command="{Binding EditTaskCommand}"
-                        Margin="0,0,10,0"/>
+            Height="35" 
+            Width="120" 
+            Style="{StaticResource AddTaskButton}" 
+            Command="{Binding EditTaskCommand}"
+            Margin="5"/>
 
                 <Button Content="Удалить" 
-                        Height="40" 
-                        Width="159" 
-                        Style="{StaticResource Delete}" 
-                        Command="{Binding DeleteTaskCommand}"/>
+            Height="35" 
+            Width="120" 
+            Style="{StaticResource Delete}" 
+            Command="{Binding DeleteTaskCommand}"
+            Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
